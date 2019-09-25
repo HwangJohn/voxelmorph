@@ -77,6 +77,7 @@ def example_gen(vol_names, batch_size=1, return_segs=False, seg_dir=None, np_var
 
     while True:
         idxes = np.random.randint(len(vol_names), size=batch_size)
+        print(f'vol_names: {vol_names}')
 
         X_data = []
         for idx in idxes:
@@ -146,6 +147,12 @@ def load_volfile(datafile, np_var='vol_data'):
     else: # npz
         if np_var is None:
             np_var = 'vol_data'
-        X = np.load(datafile)[np_var]
+        print(datafile)
+        try:
+            X = np.load(datafile)[np_var]
+        except Exception as e:
+            print("'vol' column founded :", datafile)
+            np_var = 'vol'
+            X = np.load(datafile)[np_var]
 
     return X

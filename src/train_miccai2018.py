@@ -1,3 +1,5 @@
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 """
 train atlas-based alignment with MICCAI2018 version of VoxelMorph, 
 specifically adding uncertainty estimation and diffeomorphic transforms.
@@ -77,6 +79,7 @@ def train(data_dir,
 
     # gpu handling
     gpu = '/gpu:%d' % 0 # gpu_id
+    # gpu = '/cpu:0'
     os.environ["CUDA_VISIBLE_DEVICES"] = gpu_id
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
@@ -109,7 +112,8 @@ def train(data_dir,
         
     
     # data generator
-    nb_gpus = len(gpu_id.split(','))
+    # nb_gpus = len(gpu_id.split(','))
+    nb_gpus = 0
     assert np.mod(batch_size, nb_gpus) == 0, \
         'batch_size should be a multiple of the nr. of gpus. ' + \
         'Got batch_size %d, %d gpus' % (batch_size, nb_gpus)
@@ -147,9 +151,23 @@ def train(data_dir,
 
 
 if __name__ == "__main__":
+    # ['../data/test_seg.npz', '../data/meanstats_T1_WARP.npz', '../data/atlas_norm.npz', '../data/test_vol.npz', '../data/prob_atlas_41_class.npz', '../data/atlas_class_mapping.npz']
+    # test_seg = np.load('../data/test_seg.npz')
+    # print("test_seg['vol_data'] ", np.unique(test_seg['vol_data'], return_counts=True), test_seg['vol_data'].shape)
+    # meanstats = np.load('../data/atlas_norm.npz')
+    # print("meanstats['vol'] ",np.unique(meanstats['vol'], return_counts=True), meanstats['vol'].shape)
+    # print("meanstats['seg'] ", np.unique(meanstats['seg'], return_counts=True), meanstats['seg'].shape)
+    # print("['train_avg']", np.unique(meanstats['train_avg'], return_counts=True), meanstats['train_avg'].shape)
+    # atlas_41 = np.load('../data/prob_atlas_41_class.npz')
+    # print("atlas_41['vol_data'] ", np.unique(atlas_41['vol_data'], return_counts=True), atlas_41['vol_data'].shape)
+    # atlas_map = np.load('../data/atlas_class_mapping.npz')
+    # print("atlas_map['mapping'] ", np.unique(atlas_map['mapping'], return_counts=True), atlas_map['mapping'].shape)
+
+    # exit(0)
+
     parser = ArgumentParser()
 
-    parser.add_argument("data_dir", type=str,
+    parser.add_argument("data_dir", type=str, default='../data/',
                         help="data folder")
 
     parser.add_argument("--atlas_file", type=str,

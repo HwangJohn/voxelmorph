@@ -1,0 +1,6 @@
+tensorflow
+keras
+nibabel
+tqdm
+pillow
+matplotlib

@@ -238,9 +238,9 @@ class Miccai2018():
 
 
 class SparseVM(object):
-'''
-SparseVM Sparse Normalized Local Cross Correlation (SLCC)
-'''
+    '''
+    SparseVM Sparse Normalized Local Cross Correlation (SLCC)
+    '''
     def __init__(self, mask):
         self.mask = mask
 
@@ -283,9 +283,9 @@ SparseVM Sparse Normalized Local Cross Correlation (SLCC)
 
          
     def sparse_conv_cc3D(self, atlas_mask, conv_size = 13, sum_filter = 1, padding = 'same', activation = 'elu'):
-    '''
-    Sparse Normalized Local Cross Correlation (SLCC) for 3D images
-    '''
+        '''
+        Sparse Normalized Local Cross Correlation (SLCC) for 3D images
+        '''
         def loss(I, J):
             # pass in mask to class: e.g. Mask(model.get_layer("mask").output).sparse_conv_cc3D(atlas_mask),
             mask = self.mask
